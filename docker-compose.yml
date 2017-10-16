@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+# flask:
+#  build: ./flask
+#  ports:
+#   - 5000:5000
+#  volumes:
+#   - .:/code
+# rabbit:
+#  image: rabbitmq
+#  ports:
+#   - 5672:5672
+
+# celery_amqp:
+#  image: celery
+#  command: celery worker -A tasks --loglevel=INFO
+#  volumes:
+#   - .:/code
+#  depends_on:
+#   - rabbit
+ fenics:
+  image: acc3/airfoil
+  build: ./fenics
+  ports:
+   - 5000:5000
+  tty: true
+  restart: always
