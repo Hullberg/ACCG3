@@ -1,0 +1,29 @@
+#cloud-config
+
+apt_update: true
+apt_upgrade: true
+
+packages:
+ - gmsh
+
+byobu_default: system
+
+runcmd:
+ - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+ - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+ - sudo apt-get update
+ - sudo apt-cache policy docker-ce
+ - sudo apt-get install -y docker-ce
+ - sudo docker run -td -v $(pwd):/home/fenics/shared -w /home/fenics/shared quay.io/fenicsproject/stable:current
+ # Things below are not performed
+ - git clone http://github.com/Hullberg/ACCG3
+ - cd ACCG3/navier_stokes_solver/src/
+ - ./compile_forms
+ - cd ..
+ - cmake .
+ - make -j 2
+ - cd ../cloudnaca
+ - ./runme.sh 0 40 10 125 2
+ # Here we want to convert the desired msh-file to xml with dolfin-convert, and then use the airfoil executable in the docker, by finding container ID with docker ps
+ - cd msh
+ - for file in *.msh; do dolfin-convert file "${file‰.*}.xml"; done
