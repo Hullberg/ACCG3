@@ -7,22 +7,24 @@ services:
 #   - 5000:5000
 #  volumes:
 #   - .:/code
-# rabbit:
-#  image: rabbitmq
-#  ports:
-#   - 5672:5672
+ rabbitmq:
+  image: rabbitmq
+  ports:
+   - 5672:5672
 
-# celery_amqp:
-#  image: celery
-#  command: celery worker -A tasks --loglevel=INFO
-#  volumes:
-#   - .:/code
-#  depends_on:
-#   - rabbit
+ flower:
+  image: iserko/docker-celery-flower
+  ports:
+   - 5555:5555
+
  fenics:
-  image: acc3/airfoil
+  image: acc3/airfoiltest
+  links:
+   - rabbitmq
+   - flower
   build: ./fenics
   ports:
    - 5000:5000
+#   - 5555:5555
   tty: true
   restart: always
