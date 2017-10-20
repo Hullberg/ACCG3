@@ -4,7 +4,7 @@
 1. install rabbitmq, celery, flask, numpy
 2. setup rabbitmq server
 2. get the murtazo.tgz and extract cloudnaca
-3. put the nserver.py script from this repo into the cloudnaca folder
+3. put the nserver.py script from the server folder in this repo into the cloudnaca folder
 4. start flask server with python3.5 nserver.py
 
 # To start workers:
